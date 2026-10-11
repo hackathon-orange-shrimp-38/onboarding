@@ -37,7 +37,7 @@ Use `gh` authenticated as a repository administrator or organization owner to co
 
 ```bash
 # zsh/bash
-gh repo edit "{{ORG_NAME}}/{{REPOSITORY_NAME}}" \
+gh repo edit "hackathon-orange-shrimp-38/onboarding" \
   --enable-wiki=false \
   --enable-discussions=false \
   --enable-projects=false \
@@ -49,7 +49,7 @@ gh repo edit "{{ORG_NAME}}/{{REPOSITORY_NAME}}" \
 
 ```powershell
 # PowerShell
-gh repo edit "{{ORG_NAME}}/{{REPOSITORY_NAME}}" `
+gh repo edit "hackathon-orange-shrimp-38/onboarding" `
   --enable-wiki=false `
   --enable-discussions=false `
   --enable-projects=false `
@@ -70,7 +70,7 @@ The default ruleset targets the repository's default branch, prevents deletion a
 The helper creates the `default` ruleset only if one is missing. If it finds an existing `default`, it leaves it unchanged; verify that the existing settings match the requested configuration.
 
 ```bash
-dotnet run --file ./scripts/Configure-DefaultBranchRuleset.cs -- --repo "{{ORG_NAME}}/{{REPOSITORY_NAME}}"
+dotnet run --file ./scripts/Configure-DefaultBranchRuleset.cs -- --repo "hackathon-orange-shrimp-38/onboarding"
 ```
 
 ### Configure the expected Entra tenant domain
@@ -103,8 +103,8 @@ gh auth login
 
 dotnet run --file ./scripts/Setup-GitHubApp.cs -- \
   --app-name "onboarding-automation" \
-  --github-org "{{ORG_NAME}}" \
-  --github-repo "{{ORG_NAME}}/{{REPOSITORY_NAME}}"
+  --github-org "hackathon-orange-shrimp-38" \
+  --github-repo "hackathon-orange-shrimp-38/onboarding"
 ```
 
 ```powershell
@@ -113,8 +113,8 @@ gh auth login
 
 dotnet run --file ./scripts/Setup-GitHubApp.cs -- `
   --app-name "onboarding-automation" `
-  --github-org "{{ORG_NAME}}" `
-  --github-repo "{{ORG_NAME}}/{{REPOSITORY_NAME}}"
+  --github-org "hackathon-orange-shrimp-38" `
+  --github-repo "hackathon-orange-shrimp-38/onboarding"
 ```
 
 The script listens on `http://127.0.0.1:53682/` for up to 10 minutes. On a local machine, it registers a loopback callback URL with GitHub, so run the script on the same machine as the browser.
@@ -148,21 +148,21 @@ The authenticated GitHub user must be an organization member allowed to create t
 ```bash
 # zsh/bash
 dotnet run --file ./scripts/Setup-GitHubTeam.cs -- \
-  --github-org "{{ORG_NAME}}" \
+  --github-org "hackathon-orange-shrimp-38" \
   --team-name "onboarding-participants" \
   --description "Users onboarded by this workflow." \
   --privacy "closed" \
-  --github-repo "{{ORG_NAME}}/{{REPOSITORY_NAME}}"
+  --github-repo "hackathon-orange-shrimp-38/onboarding"
 ```
 
 ```powershell
 # PowerShell
 dotnet run --file ./scripts/Setup-GitHubTeam.cs -- `
-  --github-org "{{ORG_NAME}}" `
+  --github-org "hackathon-orange-shrimp-38" `
   --team-name "onboarding-participants" `
   --description "Users onboarded by this workflow." `
   --privacy "closed" `
-  --github-repo "{{ORG_NAME}}/{{REPOSITORY_NAME}}"
+  --github-repo "hackathon-orange-shrimp-38/onboarding"
 ```
 
 The supported privacy values are `closed` and `secret`. On each successful onboarding, `Onboard-ToGitHub.cs` sends the configured team ID in the `team_ids` array, so GitHub adds the new member to that team after they complete the organization membership flow.
@@ -215,20 +215,20 @@ Run the setup script:
 # zsh/bash
 dotnet run --file ./scripts/Setup-ServicePrincipal.cs -- \
   --app-name "onboarding-automation" \
-  --github-repo "{{ORG_NAME}}/{{REPOSITORY_NAME}}"
+  --github-repo "hackathon-orange-shrimp-38/onboarding"
 ```
 
 ```powershell
 # PowerShell
 dotnet run --file ./scripts/Setup-ServicePrincipal.cs -- `
   --app-name "onboarding-automation" `
-  --github-repo "{{ORG_NAME}}/{{REPOSITORY_NAME}}"
+  --github-repo "hackathon-orange-shrimp-38/onboarding"
 ```
 
 The federated credential created by the script trusts only:
 
 ```text
-repo:{{ORG_NAME}}/{{REPOSITORY_NAME}}:ref:refs/heads/main
+repo:hackathon-orange-shrimp-38/onboarding:ref:refs/heads/main
 ```
 
 If the workflow runs from a different branch, update the `Branch` constant in `Setup-ServicePrincipal.cs` before running it, or create an additional federated credential with the required subject.
@@ -248,7 +248,7 @@ Review the generated permissions for your environment. In particular, the setup 
 dotnet run --file ./scripts/Setup-EntraSecurityGroup.cs -- \
   --group-name "onboarding-participants" \
   --description "Users onboarded by this workflow." \
-  --github-repo "{{ORG_NAME}}/{{REPOSITORY_NAME}}"
+  --github-repo "hackathon-orange-shrimp-38/onboarding"
 ```
 
 ```powershell
@@ -256,7 +256,7 @@ dotnet run --file ./scripts/Setup-EntraSecurityGroup.cs -- \
 dotnet run --file ./scripts/Setup-EntraSecurityGroup.cs -- `
   --group-name "onboarding-participants" `
   --description "Users onboarded by this workflow." `
-  --github-repo "{{ORG_NAME}}/{{REPOSITORY_NAME}}"
+  --github-repo "hackathon-orange-shrimp-38/onboarding"
 ```
 
 The script derives a mail nickname from the display name. Use `--mail-nickname` to provide one explicitly. Use a dedicated group whose access assignments match the intended onboarding scope. The automation identity needs permission to read the group and update its membership.
@@ -270,13 +270,13 @@ For ongoing onboarding, leave the variable unset. To remove a previously configu
 ```bash
 # zsh/bash
 gh variable delete ONBOARDING_DUE_DATE \
-  --repo "{{ORG_NAME}}/{{REPOSITORY_NAME}}"
+  --repo "hackathon-orange-shrimp-38/onboarding"
 ```
 
 ```powershell
 # PowerShell
 gh variable delete ONBOARDING_DUE_DATE `
-  --repo "{{ORG_NAME}}/{{REPOSITORY_NAME}}"
+  --repo "hackathon-orange-shrimp-38/onboarding"
 ```
 
 Use an ISO 8601 timestamp with an explicit UTC offset:
@@ -285,14 +285,14 @@ Use an ISO 8601 timestamp with an explicit UTC offset:
 # zsh/bash
 gh variable set ONBOARDING_DUE_DATE \
   --body "2026-12-31T23:59:59+09:00" \
-  --repo "{{ORG_NAME}}/{{REPOSITORY_NAME}}"
+  --repo "hackathon-orange-shrimp-38/onboarding"
 ```
 
 ```powershell
 # PowerShell
 gh variable set ONBOARDING_DUE_DATE \
   --body "2026-12-31T23:59:59+09:00" \
-  --repo "{{ORG_NAME}}/{{REPOSITORY_NAME}}"
+  --repo "hackathon-orange-shrimp-38/onboarding"
 ```
 
 An explicit offset avoids interpreting the deadline in the runner's local time zone.
@@ -302,8 +302,8 @@ An explicit offset avoids interpreting the deadline in the runner's local time z
 List the configured variables and secret names:
 
 ```bash
-gh variable list --repo "{{ORG_NAME}}/{{REPOSITORY_NAME}}"
-gh secret list --repo "{{ORG_NAME}}/{{REPOSITORY_NAME}}"
+gh variable list --repo "hackathon-orange-shrimp-38/onboarding"
+gh secret list --repo "hackathon-orange-shrimp-38/onboarding"
 ```
 
 Confirm that all required values from the configuration overview are present. GitHub does not reveal secret values after they are stored.

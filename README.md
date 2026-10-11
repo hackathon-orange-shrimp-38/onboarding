@@ -54,7 +54,7 @@ dotnet run --file ./scripts/Validate-OnboardingRequest.cs -- \
   --input ./payload.json \
   --output ./issue.json \
   --due-date "2026-12-31T23:59:59+09:00" \
-  --organization "{{ORG_NAME}}" \
+  --organization "hackathon-orange-shrimp-38" \
   --github-output ./github-output
 ```
 
@@ -65,7 +65,7 @@ dotnet run --file ./scripts/Validate-OnboardingRequest.cs -- `
   --input ./payload.json `
   --output ./issue.json `
   --due-date "2026-12-31T23:59:59+09:00" `
-  --organization "{{ORG_NAME}}" `
+  --organization "hackathon-orange-shrimp-38" `
   --github-output ./github-output
 ```
 
