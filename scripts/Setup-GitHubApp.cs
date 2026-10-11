@@ -11,6 +11,9 @@ var options = Arguments.Parse(args);
 var state = Convert.ToHexString(RandomNumberGenerator.GetBytes(32)).ToLowerInvariant();
 var listenerUrl = $"http://127.0.0.1:{options.CallbackPort}/";
 var codespacesBaseUrl = GetCodespacesBaseUrl(options.CallbackPort);
+var listenerPrefix = codespacesBaseUrl is null
+    ? listenerUrl
+    : $"http://*:{options.CallbackPort}/";
 var registrationBaseUrl = codespacesBaseUrl ?? listenerUrl;
 var callbackUrl = new Uri(new Uri(registrationBaseUrl), "callback/").ToString();
 var canOpenBrowser = options.OpenBrowser && codespacesBaseUrl is null;
@@ -44,7 +47,7 @@ var registrationUrl =
     $"{githubWebUrl}/organizations/{Uri.EscapeDataString(options.GitHubOrganization)}/settings/apps/new";
 
 using var listener = new HttpListener();
-listener.Prefixes.Add(listenerUrl);
+listener.Prefixes.Add(listenerPrefix);
 listener.Start();
 
 Console.WriteLine($"Preparing GitHub App registration for organization '{options.GitHubOrganization}'...");
@@ -183,7 +186,7 @@ static async Task<string> ReceiveManifestCodeAsync(
             continue;
         }
 
-        if (path == "/callback/")
+        if (path is "/callback" or "/callback/")
         {
             var returnedState = context.Request.QueryString["state"];
             var code = context.Request.QueryString["code"];

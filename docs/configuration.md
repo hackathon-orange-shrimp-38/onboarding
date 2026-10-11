@@ -119,7 +119,7 @@ dotnet run --file ./scripts/Setup-GitHubApp.cs -- `
 
 The script listens on `http://127.0.0.1:53682/` for up to 10 minutes. On a local machine, it registers a loopback callback URL with GitHub, so run the script on the same machine as the browser.
 
-In GitHub Codespaces, the script detects `CODESPACES=true` and registers `https://<codespace-name>-<port>.<forwarding-domain>/callback/` as the callback while continuing to listen on loopback. The default dev container forwards port `53682`. Run the setup command with `--no-open`, then open the forwarded registration URL printed by the script in a browser signed in to GitHub. Keep the port private so only your Codespaces user can access it. Use `--callback-port` to select another port; Codespaces will forward that port when the script prints its local listener URL.
+In GitHub Codespaces, the script detects `CODESPACES=true` and registers `https://<codespace-name>-<port>.<forwarding-domain>/callback/` as the callback. It uses a wildcard listener prefix so the Codespaces forwarding hostname is accepted; outside Codespaces, it listens only on loopback. The default dev container forwards port `53682`. Run the setup command with `--no-open`, then open the forwarded registration URL printed by the script in a browser signed in to GitHub. Keep the port private so only your Codespaces user can access it. Use `--callback-port` to select another port; Codespaces will forward that port when the script prints its local listener URL.
 
 `--no-open` prevents the script from launching a browser. In Codespaces, the script always prints the forwarded URL for you to open manually.
 
