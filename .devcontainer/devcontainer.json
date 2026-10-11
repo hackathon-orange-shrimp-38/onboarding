@@ -1,0 +1,45 @@
+{
+  "name": "Onboarding",
+
+  "image": "mcr.microsoft.com/devcontainers/dotnet:10.0-noble",
+
+  "features": {
+    "ghcr.io/devcontainers/features/azure-cli:latest": {},
+    "ghcr.io/devcontainers/features/common-utils:latest": {},
+    "ghcr.io/devcontainers/features/copilot-cli:latest": {},
+    "ghcr.io/devcontainers/features/github-cli:latest": {}
+  },
+
+  "overrideFeatureInstallOrder": [
+    "ghcr.io/devcontainers/features/common-utils"
+  ],
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "EditorConfig.EditorConfig",
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "GitHub.vscode-github-actions",
+        "GitHub.vscode-pull-request-github",
+        "ms-dotnettools.csharp",
+        "redhat.vscode-yaml"
+      ],
+
+      "settings": {
+        "editor.minimap.enabled": false,
+        // "editor.fontFamily": "D2Coding, Consolas, 'Courier New', monospace",
+        // "terminal.integrated.fontFamily": "D2CodingLigature Nerd Font",
+        "explorer.sortOrder": "type"
+      }
+    }
+  },
+
+  "forwardPorts": [
+    53682
+  ],
+
+  "remoteUser": "vscode",
+
+  "onCreateCommand": "/bin/bash ./.devcontainer/on-create.sh > ~/on-create.log"
+}
